@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Please note that whilst this template provides a 
-% preview of the typeset manuscript for submission, it 
+% Please note that whilst this template provides a
+% preview of the typeset manuscript for submission, it
 % will not necessarily be the final publication layout.
 %
 % letterpaper/a4paper: US/UK paper size toggle
@@ -51,7 +51,7 @@
 \maketitle
 \begin{abstract}
 %% No more than 250 words! (current 414)
-\textbf{Background} The turbulent ecosystem of single-cell RNA-seq tools has up to recently been plagued by a plethora of diverging analysis strategies, inconsistent file formats, and a wide range of compatibility issues between different software packages. Due to the initial sparseness of the data caused by low coverage and intrinsic cell noise meant that strategies could be developed on very few compute resources to solve the problems of normalisation, confounder removal, and clustering. The differing sequencing protocols produced by the various small labs has produced many different types of datasets, and specific strategies to analyse them. This has led to a saturation of different scRNA tools, many of which see very little use. The rise of 10X Genomics datasets that are now saturating the field has provided a new standard that has refocused the energies of the different analysis pipelines towards analysis consistency, and has once again driven the demand for large computing requirements to cluster the increasingly growing datasets. 
+\textbf{Background} The turbulent ecosystem of single-cell RNA-seq tools has up to recently been plagued by a plethora of diverging analysis strategies, inconsistent file formats, and a wide range of compatibility issues between different software packages. Due to the initial sparseness of the data caused by low coverage and intrinsic cell noise meant that strategies could be developed on very few compute resources to solve the problems of normalisation, confounder removal, and clustering. The differing sequencing protocols produced by the various small labs has produced many different types of datasets, and specific strategies to analyse them. This has led to a saturation of different scRNA tools, many of which see very little use. The rise of 10X Genomics datasets that are now saturating the field has provided a new standard that has refocused the energies of the different analysis pipelines towards analysis consistency, and has once again driven the demand for large computing requirements to cluster the increasingly growing datasets.
 
 Many of the tools have different libraries
 
@@ -74,7 +74,7 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 \begin{keypoints*}
 \begin{itemize}
 \item The analysis of scRNA is currently stabilising towards 10X Genomics datasets
-\item A rapid 
+\item A rapid
 \item One last point.
 \end{itemize}
 \end{keypoints*}
@@ -89,12 +89,25 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 Paragraph at the end.
 Collaborative effort, worldwide -- nicola, maria
 
+Single-cell RNA-seq has provided a new means to peer into the underlying functional mechanisms that is soon to redefine the field of transcriptomics. The insights and new cellular resolution of the analyses enable researchers to follow the differentiation paths a cell may take as it develops from a stem cell to a mature cell type, as well as exploring the many factors that can influence the decisions that a cell makes to decide its fate.
+
+Over a hundred different packages and pipelines have been developed to assist researchers in the analysis of scRNA-seq, but many of these are computationally and statistically complex for the average biololgically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
+
+The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
+
+Thankfully there are many online resources, jupyter notebooks that can walk a researcher through how to perform an analysis as well as understanding the concepts at each stage, but not many make use of reproducible environments either via Conda or other.
+
+Galaxy is an open source biocomputing infrastructure that encapsulates the three main tenets of science; reproducibility, peer review, and open-access, all freely accessible within a web-browser. It hosts a wide range of highly-cited bioinformatic tools with many different versions, enables users to freely create their own workflows via a seamless drag-and-drop interface, and provides teaching materials on a whole slew of various different topics and sub-topics. Trainings and workshops are hosted at least twice a year that encourage users to play with and understand their data.
+
+The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material to .
+
+The recent iteration of Galaxy allows subdomains that better encapsulate the various topics into their own infospheres, such that only the relevant tools are shown in the tool window for a given topic, in order to make Galaxy much more portable.
 
 
 \section{Introduction to this Template}
 
 \begin{epigraph}{Epigraph source name}
-This is the epigraph text, should you like to add one. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+This is the epigraph text, should you like to add one. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 \end{epigraph}
 
 This is the \LaTeX{} template for GigaScience journal manuscript submissions. \textbf{Please note that whilst this template provides a preview of the typeset manuscript for submission, it will not necessarily be the final publication layout.}
@@ -120,7 +133,7 @@ Use the \verb|\citep| command for parenthetical citations, and \verb|\citet| com
 This is a citation: \citep{Fan:2004} and here are two more: \citep{Cox:1972,Hear:Holm:Step:quan:2006}.
 
 \begin{quote}
-This is a quote. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+This is a quote. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 \end{quote}
 
 \begin{itemize}
@@ -143,13 +156,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 \subsubsection{This is a 3rd level heading}
 
 Use \verb|\subsubsection| to get a 3rd level heading.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 
 \paragraph{This is a 4th level heading}
 
 Use \verb|\paragraph| to get a 4th level heading.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 \subparagraph{This is a 5th level heading}
 
@@ -158,11 +171,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 
 \subsection{Figures and Tables}
-Figures and tables can be added with the usual \verb|figure| and \verb|table| environments, e.g.~Figure \ref{fig:example} and Table \ref{tab:example}. Use \verb|figure*| and \verb|table*| if you need a two-column wide figure or table, as in Figure \ref{fig:example:wide} and Table \ref{tab:example:wide}. 
+Figures and tables can be added with the usual \verb|figure| and \verb|table| environments, e.g.~Figure \ref{fig:example} and Table \ref{tab:example}. Use \verb|figure*| and \verb|table*| if you need a two-column wide figure or table, as in Figure \ref{fig:example:wide} and Table \ref{tab:example:wide}.
 
 If you have a very wide table or figure, you can use \texttt{sidewaystable} or \texttt{sidewaysfigure}, as in Table \ref{tab:example:sideways}: this will be rotated sideways and occupy a \emph{single column} on its own.
 
-If your table or figure is both wide and tall (so it wouldn't fit well in a single column with \texttt{sidewaystable} or \texttt{figure}), 
+If your table or figure is both wide and tall (so it wouldn't fit well in a single column with \texttt{sidewaystable} or \texttt{figure}),
 you can use \verb|table| or \verb|figure| inside a \verb|landscape| environment for a full-page landscaped alternative. A page break will be inserted \emph{immediately before and after} the \verb|landscape| environment (Table \ref{tab:example:landscape}), so you'll need to carefully position it in a suitable location in your manuscript.
 
 \begin{figure}[bt!] %% preferably at bottom or top of column
@@ -288,7 +301,7 @@ The discussion should spell out the major conclusions and interpretations of the
 
 \section{Potential implications}
 
-Authors should provide some additional comments about potential, more broad-ranging implications of their work that are not directly related to the current focus of their manuscript. This section is meant to promote discussion on possible ways the findings or data presented might be used in or have a relationship with other areas of research that may not be directly apparent in the work. It is not meant to provide `proof of importance' of the work. Only to engender expansion of use to other areas. 
+Authors should provide some additional comments about potential, more broad-ranging implications of their work that are not directly related to the current focus of their manuscript. This section is meant to promote discussion on possible ways the findings or data presented might be used in or have a relationship with other areas of research that may not be directly apparent in the work. It is not meant to provide `proof of importance' of the work. Only to engender expansion of use to other areas.
 
 Explicit personal opinions by the authors are permitted, but they should be made clear as such. References or related information to support the propositions should be included. These section should focus on work that can be done within the foreseeable future and specifically using the information within the manuscript, not provide speculation on how it will relate to far-reaching goals of the research area.
 
@@ -359,7 +372,7 @@ All financial and non-financial competing interests must be declared in this sec
 
 \subsection{Funding}
 
-All sources of funding for the research reported should be declared. The role of the funding body in the design of the study and collection, analysis, and interpretation of data and in writing the manuscript should be declared. Please use \href{http://www.crossref.org/fundingdata/}{FundRef} to report funding sources and include the award/grant number, and the name of the Principal Investigator of the grant. 
+All sources of funding for the research reported should be declared. The role of the funding body in the design of the study and collection, analysis, and interpretation of data and in writing the manuscript should be declared. Please use \href{http://www.crossref.org/fundingdata/}{FundRef} to report funding sources and include the award/grant number, and the name of the Principal Investigator of the grant.
 
 
 \subsection{Author's Contributions}
