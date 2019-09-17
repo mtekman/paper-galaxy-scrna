@@ -99,9 +99,28 @@ Thankfully there are many online resources, jupyter notebooks that can walk a re
 
 Galaxy is an open source biocomputing infrastructure that encapsulates the three main tenets of science; reproducibility, peer review, and open-access, all freely accessible within a web-browser. It hosts a wide range of highly-cited bioinformatic tools with many different versions, enables users to freely create their own workflows via a seamless drag-and-drop interface, and provides teaching materials on a whole slew of various different topics and sub-topics. Trainings and workshops are hosted at least twice a year that encourage users to play with and understand their data.
 
-The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material to .
+The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material in order to educate users in how to analyse their data, and in turn to train others of the same materials via easily deployable workshops. The Galaxy project provides a priority processing queue for anybody who may require it during a workshop. The GTN has grown rapidly since it's conception and gains new volunteers every year who each contribute and coordinate training and teaching events, maintain topic and subtopics, and provide peer review on new material.
 
-The recent iteration of Galaxy allows subdomains that better encapsulate the various topics into their own infospheres, such that only the relevant tools are shown in the tool window for a given topic, in order to make Galaxy much more portable.
+The Galaxy tools and the GTN are further tied together by Galaxy subdomains, that better encapsulate the various topics into their own self-contained spheres of influence. These complement the training material by providing only the necessary Galaxy tools from the total set of Galaxy utilities such that the toolbar is not over-cluttered with tools that are not so relevant to the material (e.g. Variant Analysis tools being included in scRNA-seq resources), and also the benefit that smaller specialised Galaxy instances can be deployed with much smaller redundancy since only the core tools (e.g. text manipulation, FASTQ quality control, etc.) and the topic-specific utilities are packaged with it.
+
+In this light, the \url{singlecellomics.usegalaxy.eu} subdomain hosts the entirety of the single-cell materials, tools, workflows, and single-cell related events, and it is this which is the focus of the paper. Given the extremely broadening scope of scRNA-seq, the Human Cell Atlas also have their own subdomain in this regard and maintain their materials at \url{humancellatlas.usegalaxy.eu}.
+
+The tutorials are split into two main parts that describe the post-processing and downstream analysis, referring to the distinct stages of constructing a count matrix from initial sequencing data, and then performing cluster analysis on the count matrix. These stages are very far from one another in terms of their information content, since the pre-processing stage requires the researcher to have more wetlab knowledge than a bioinformatician would normally need, and the downstream analysis stage requires the researcher to be familiar with machine learning concepts that a wetlab scientist might not be too familiar with.
+
+The tutorial are designed to appeal to both types of researchers, the biologist and the statistician such that each can benefit from the other's knowledge and, most importantly, bridge the knowledge gaps that separate the two.
+
+The pre-processing scRNA-seq materials tackle the two most common use-cases that researchers will encounter when they first begin the field: processing scRNA-seq data from 10x Genomics, and processing data generated from other protocols.
+
+Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires threee crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
+
+Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may be 
+ 
+
+10x Genomics appeared in the field in XXXXDATE, and steadily gained traction amongst researchers due to the high-throughput and high-quality datasets they generated. The initial state of the scRNA-seq software ecosystem was in a state of disarray before the emergence of 10x, due to the different competing, often not inter-exchangeable, R-based formats which required researchers to dig deeper into the internal semantics of R, instead of the internal biological variability of their datasets. 10x Genomics streamlined much of this process by popularising their own transparent H5-based format as well as their own \prog{Cell Ranger} pipeline.
+
+
+
+
 
 
 \section{Introduction to this Template}
