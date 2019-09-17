@@ -113,9 +113,33 @@ The pre-processing scRNA-seq materials tackle the two most common use-cases that
 
 Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires threee crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
 
-Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may contain more un-mappable reads compared to others meaning that the metric of higher read library sizes are not neccesarily correlated with a better-defined cell. Ultimately, the bioinformatician must go to the sequencing lab and ask them which cell barcodes were used, as these are often not specific to the protocol but to the technician who designed them, with the idea that they should not align to the reference genome or transcriptome. 
- 
+Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may contain more un-mappable reads compared to others meaning that the metric of higher read library sizes are not neccesarily correlated with a better-defined cell. Ultimately, the bioinformatician must go to the sequencing lab and ask them which cell barcodes were used, as these are often not specific to the protocol but to the technician who designed them, with the idea that they should not align to the reference genome or transcriptome.
+
 10x Genomics appeared in the field in XXXXDATE, and steadily gained traction amongst researchers due to the high-throughput and high-quality datasets they generated. The initial state of the scRNA-seq software ecosystem was in a state of disarray before the emergence of 10x, due to the different competing, often not inter-exchangeable, R-based formats which required researchers to dig deeper into the internal semantics of R, instead of the internal biological variability of their datasets. 10x Genomics streamlined much of this process by popularising their own transparent H5-based format as well as their own \prog{Cell Ranger} pipeline.
+
+The \prog{RNA STARsolo} tool is an update to the \prog{RNA STAR} utility designed to be a drop-in replacement for the \prog{Cell Ranger} pipeline, that boasts a ten-fold speedup of their pipeline. Though the memory requirements are also an order of magnitude higher, they are easily catered for using the Galaxy Framework which does not suffer from such memory constraints, and has the benefit of not requiring the Illumina lane read information to perform the processing either. The training and workflow for this is therefore quite straightforward and follows the same mode of discovery and analysis.
+
+The custom pre-processing uses the CELSeq2 protocol following the barcoding strategies at the local Max-Planck Freiburg laboratory as its main template, but the training is flexible to accommodate any droplet or well-based protocol. The training pictographically walks users through the concepts of extracting cell barcodes, both at the over-archingly conceptial and basic file previewing level, and elucidates the use of UMIs and its role and significance in the process of read deduplication, and explains and instructs the user in the process of performing further quality controls on their data during the post-mapping process via \prog{RNA STAR} and basic BAM Filter utilities that are native to Galaxy. At each stage, the user's knowledge is queried via expandable Question Box dialogs, and helpful hints for future processing are given via Comment Boxes, all written in transparent Markdown to the specification of the GTN contributing guidelines designed to aid users.
+
+The downstream modules are defined by the five main stages of downstream scRNA-seq analysis as defined by the Hemberg group; filtering, normalisation, confounder removal, clustering, and trajectory inference. There are three workflows to aid in this process, each sporting a different well-established scRNA-seq pipeline tool. The Scater pipeline was contributed by the XXXX group, and follows an intuitive visualise-edit-visualise paradigm which provides a very understandable means to perform further quality control on a count matrix by use of repeated incremental changes on a dataset through the use of PCA and library size based metrics. Once this pre-analysis stage is complete and that the user is now confident with the quality of their data, they can perform the analysis via one or both of two comprehensive workflows: RaceID, and ScanPy.
+
+The RaceID package was developed initially to analyse rare cell transcriptomes whilst being robust against noise, and thus is ideal for working with smaller datasets in the range of 300 to 1000 cells, though due to its impressive cell lineage and fate predictions models it can also be used on larger datasets albeit with some scaling costs. The ScanPy pipeline was developed as the Python counter response to overinflated R package ecosystem for scRNA-seq which was the dominant language for such analyses, and it was one of the first packages with native 10x genomics file format support. Since then it has grown substantially, and has been re-implementing much of the newer methods released in BioConductor, therefore providing a single source to perform many different types of the same analysis and becoming a dominant leader in the field where others have been slow to adapt.
+
+Both workflows guide the user from the initial filtering step (if required) through to the clustering and final trajectory inference and inspection, mostly through a guided linear path because 
+
+Through the use of a convenience wrapper, the native RaceID R datatypes are converted into AnnData so that the analysis via one workflow can be continued in another, should
+
+
+Questions:
+- Workflow → { preprocessing | preprocessing_tenx } → [scater] → { RaceID | ScanPy } → { Visualisation | Human Cell Atlas }
+
+
+
+
+
+
+
+
 
 
 
