@@ -125,14 +125,29 @@ The downstream modules are defined by the five main stages of downstream scRNA-s
 
 The RaceID package was developed initially to analyse rare cell transcriptomes whilst being robust against noise, and thus is ideal for working with smaller datasets in the range of 300 to 1000 cells, though due to its impressive cell lineage and fate predictions models it can also be used on larger datasets albeit with some scaling costs. The ScanPy pipeline was developed as the Python counter response to overinflated R package ecosystem for scRNA-seq which was the dominant language for such analyses, and it was one of the first packages with native 10x genomics file format support. Since then it has grown substantially, and has been re-implementing much of the newer methods released in BioConductor, therefore providing a single source to perform many different types of the same analysis and becoming a dominant leader in the field where others have been slow to adapt.
 
-Both workflows guide the user from the initial filtering step (if required) through to the clustering and final trajectory inference and inspection, mostly through a guided linear path because 
+Both workflows guide the user from the initial filtering step (if required) through to the clustering and final trajectory inference and inspection, mostly through a guided linear path because historically different pipelines do not work so well with one another.
+% TODO!!
+However, through the use of a convenience wrapper, the different modules of each pipeline are now able to communicate with one another via the AnnData datatype. The native RaceID R datatypes are converted into AnnData so that the analysis via one workflow can be continued within another, should the user wish to reap the benefits of one or more modules from another pipeline.
 
-Through the use of a convenience wrapper, the native RaceID R datatypes are converted into AnnData so that the analysis via one workflow can be continued in another, should
+The modules emulate the five main stages of analysis mentioned previously, where filtering, normalisation, and confounder removal are typically separated into distinct stages. During the filtering stage, the initial count matrix removes low-quality or unwanted cells using commonly used parameters such as minimum gene detection sensitivity and minimum library size, and low-quality genes are also removed under similar metrics, where the minimum number of cells for a gene to be included is decided. The Scater workflow also offers a PCA-based method to help with the feature selection so that only the highly variable genes are left in the analysis.
+
+There is always the danger of over-filtering a dataset, and indeed some normalisation methods rely on a background noise model generated from the expression of less variable or housekeeping genes, so it is important that the user first performs a naive analysis and only refines their analysis to boost the signal-to-noise ratio.
+
+The normalisation of a step aims to remove any technical factors that are not relevant to the analysis, such as the library size, where cells of the same time are likely to differ from one another more by the number of transcripts they exhibit due to several factors that can affect it. The first and foremost is cell capture efficiency, where different cells produce more or less transcripts based on the amplification and coverage conditions they are sequenced in. The second is the presence of dropout events which manifest as counts of ``zeroes'' in the final count matrix but are uncertainly derived from the molecule existing in the cell and simply not being detected, or that the molecule itself was not present. This uncertainty alone led to a slew of different normalisation techniques that try to model this expression either via hurdle models, or imputing the data via manifold learning techniques, or working around the issue by pooling subsets of cells together.
+
+In this regard, both the RaceID and ScanPy workflows offer many different options for normalisation and users are encouraged to take advantage of the branching workflow model of Galaxy to explore all possible avenues.
+
+Other sources of variability stem from unwanted biological contributions known as confounder effects, such as cell cycle effects and transcription. Depending on what stage of the cell cycle a cell was sequenced at, two cells of the same type might cluster differently simply because one might have more transcripts due to being in the M-phase of the cell cycle. Library sizes not withstanding, it is the variability in specific cell cycle genes that can be the main driving factor in the overall variability. Thankfully, these effects are linear and are therefore quite easy to regress out, and we replicate an entire standalone ScanPy workflow dedicated to detecting and visualising the effects based on the original notebook.
+
+The transcription effects are harder to model, as these are semi-stochastic and are as of yet still not well understood. In bulk RNA-seq the expression of genes undergoing transcription are averaged to give ``high'' or ``low'' signals producing a global effect that gives the false impression that transcription is a continuous process. The reality is more complex; where cells undergo transcription in ``bursts'' of activity followed by periods of no activity, at irregular intervals. At the bulk level these discrete processes are smoothed to give a continuous effect, but at the cell level it could mean that even two directly adjacent cells of the same type normalised to the same number of transcripts can still have wildly different levels of expression for a gene due to this process. This is not something that can be countered for, but it does educate the users in the factors that they can and cannot control in an analysis, and how much variability they can expect to see.
+
+Once a user has obtained a count matrix they are confident in, they can perform clustering where they are first educated in the use of commonly used clustering techniques such as k-means and hierarchical clustering, as well as dimension reduction techniques, through the use of helpful images and community examples.
 
 
-Questions:
+
+Issues:
 - Workflow → { preprocessing | preprocessing_tenx } → [scater] → { RaceID | ScanPy } → { Visualisation | Human Cell Atlas }
-
+- Humancellatlas also have a scanpy based workflow, so this sucks...
 
 
 
