@@ -84,12 +84,19 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 * Visualisations on top
 * Plotting tools on top of LOOM
 * New workflows based upon the existing, we encourage it
-
 * Talk about the non-standaridsation of the pre-processing -- cannot fix it, and we encourage to stick to certain standards, and our tools ar eflexbile in that regard, pipe itinto a scalable pipeline. Cherr
 Paragraph at the end.
 Collaborative effort, worldwide -- nicola, maria
 
-Single-cell RNA-seq has provided a new means to peer into the underlying functional mechanisms that is soon to redefine the field of transcriptomics. The insights and new cellular resolution of the analyses enable researchers to follow the differentiation paths a cell may take as it develops from a stem cell to a mature cell type, as well as exploring the many factors that can influence the decisions that a cell makes to decide its fate.
+% Good intro
+The continuing rise in single cell technologies has led to previously unprecedented levels of analysis into cell heterogeneity within tissue samples, providing new insights into developmental and differentiation pathways for a wide range of different disciplines. Gene expression studies are now performed at a cellular level of resolution, which compared to bulk RNA-seq methods, allows researchers to model their tissue samples as distributions of different expression instead of as an average.
+
+The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types. Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover extracellular triggers that can coerce a pluripotent cell type to follow one cell fate outcome compared to another.
+
+% Now talk about Galaxy
+
+
+to  provide a new  to peer into the underlying cell mechanisms that is soon to redefine the field of transcriptomics. The insights and new cellular resolution of the analyses enable researchers to follow the differentiation paths a cell may take as it develops from a stem cell to a mature cell type, as well as exploring the many factors that can influence the decisions that a cell makes to decide its fate.
 
 Over a hundred different packages and pipelines have been developed to assist researchers in the analysis of scRNA-seq, but many of these are computationally and statistically complex for the average biololgically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
 
