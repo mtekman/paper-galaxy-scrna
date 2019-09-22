@@ -15,6 +15,7 @@
 
 \usepackage{graphicx}
 \usepackage{siunitx}
+\usepackage{verbatim}
 
 %%% Flushend: You can add this package to automatically balance the final page, but if things go awry (e.g. section contents appearing out-of-order or entire blocks or paragraphs are coloured), remove it!
 % \usepackage{flushend}
@@ -45,6 +46,10 @@
 \jnumber{0}
 \jyear{2017}
 
+%% My customisations
+\newcommand{\citeneed}{{\bf\tiny [Citation Needed]}}
+\newcommand{\thing}{{\bf THING}}
+
 \begin{document}
 
 \begin{frontmatter}
@@ -52,8 +57,6 @@
 \begin{abstract}
 %% No more than 250 words! (current 414)
 \textbf{Background} The turbulent ecosystem of single-cell RNA-seq tools has up to recently been plagued by a plethora of diverging analysis strategies, inconsistent file formats, and a wide range of compatibility issues between different software packages. Due to the initial sparseness of the data caused by low coverage and intrinsic cell noise meant that strategies could be developed on very few compute resources to solve the problems of normalisation, confounder removal, and clustering. The differing sequencing protocols produced by the various small labs has produced many different types of datasets, and specific strategies to analyse them. This has led to a saturation of different scRNA tools, many of which see very little use. The rise of 10X Genomics datasets that are now saturating the field has provided a new standard that has refocused the energies of the different analysis pipelines towards analysis consistency, and has once again driven the demand for large computing requirements to cluster the increasingly growing datasets.
-
-Many of the tools have different libraries
 
 Given the cluster-based interpretive nature of an scRNA-seq analysis, it is not always clear to initial researchers whether the steps they have undertaken to get to the final clustering are necessarily correct. The disparity between the statistically-driven algorithmic nature of the analysis to the underlying cell biology is a frightening prospect for many researchers first introduced into the topic.
 
@@ -79,6 +82,7 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 \end{itemize}
 \end{keypoints*}
 
+\begin{comment}
 * accessiblity, scalability
 * Fileformats, compatibility and conversions, interconvertible
 * Visualisations on top
@@ -88,20 +92,7 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 Paragraph at the end.
 Collaborative effort, worldwide -- nicola, maria
 
-% Intro - what is single cell, why is it good, and what new insights
-The continuing rise in single cell technologies has led to previously unprecedented levels of analysis into cell heterogeneity within tissue samples, providing new insights into developmental and differentiation pathways for a wide range of different disciplines. Gene expression studies are now performed at a cellular level of resolution, which compared to bulk RNA-seq methods, allows researchers to model their tissue samples as distributions of different expression instead of as an average.
-
-%to  provide a new  to peer into the underlying cell mechanisms that is soon to redefine the field of transcriptomics. The insights and new cellular resolution of the analyses enable researchers to follow the differentiation paths a cell may take as it develops from a stem cell to a mature cell type, as well as exploring the many factors that can influence the decisions that a cell makes to decide its fate.
-The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types. Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluripotent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells XXXCITEXXX.
-
-% Pitfalls and technical problems
-With each new protocol comes a host of new technical challenges to overcome. The first wave of software utilities to deal with the analysis of single cell datasets were statistical packages, aimed at tackling the issue of ``dropout events'' during sequencing, which would manifest as a high prevalence of zero-entries in over 80\% of the feature-count matrix. These zeroes were problematic, since they could not be trivially ignored as their presence stated that either the cell did not produce any molecules for that transcript, or that the sequencer simply did not detect them. Traditional normalisation techniques such as XXXX and XXXX had to be adapted to accommodate for this uncertainty, and new ones were created that harnessed hurdle models, data imputation via manifold learning techniques, or by pooling subsets of cells together and building general linear models.
-
-With the downstream analysis packages attempting to solve the dropouts via stochastic methods, the upstream sequencing technologies also aspired to solve the capture efficiency via well, droplet, and flow cytometry based protocols, all of which lend importance to the process of barcoding sequencing reads. In each protocol, cells are tagged with cell barcodes such that any reads derived from them can be unambiguously quantified to originate from a specific cell, and the inclusion of unique molecular identifiers (UMIs) are also employed to mitigate the effects of amplification bias of transcripts within the same cell. The detection, extraction, and (de-)multiplexing of these barcodes is therefore one of the first hurdles researchers encounter when receiving their raw FASTQ data from the sequencing facility.
-
-
-% Talk about the software
-Over a hundred different packages and pipelines have been developed to assist researchers in the analysis of scRNA-seq, but many of these are computationally and statistically complex for the average biololgically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
+Many of these are computationally and statistically complex for the average biololgically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
 
 The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
 
@@ -182,12 +173,6 @@ Overall, the materials and tools presented in this paper represent the first ful
 
 Each of the trainings seamlessly leads on from topic to the next, with the markdown encouraging authors to set tutorial pre-requisities and follow up tutorials, all encapsulated within the single topic. Not only does this allow users to derive a seamless route through the flurry of tutorials, but it also enables a branching tree structure of topics to be generated so that users can guide their own learning.
 
-
-
-
-
-
-
 Issues:
 - Workflow → { preprocessing | preprocessing_tenx } → [scater] → { RaceID | ScanPy } → { Visualisation | Human Cell Atlas }
 - Humancellatlas also have a scanpy based workflow, so this sucks...
@@ -201,31 +186,26 @@ Emphasise more:
 -
 
 
+\end{comment}
+
+%%%% BEGIN
+
+\section{Background}
+
+% Intro - what is single cell, why is it good, and what new insights
+The continuing rise in single cell technologies has led to previously unprecedented levels of analysis into cell heterogeneity within tissue samples, providing new insights into developmental and differentiation pathways for a wide range of different disciplines. Gene expression studies are now performed at a cellular level of resolution, which compared to bulk RNA-seq methods, allows researchers to model their tissue samples as distributions of different expression instead of as an average.
+
+The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types. Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluripotent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells \citeneed.
+
+\subsection{Pitfalls and Technical Challenges} 
+With each new protocol comes a host of new technical problems to overcome. The first wave of software utilities to deal with the analysis of single cell datasets were statistical packages, aimed at tackling the issue of ``dropout events'' during sequencing, which would manifest as a high prevalence of zero-entries in over 80\% of the feature-count matrix. These zeroes were problematic, since they could not be trivially ignored as their presence stated that either the cell did not produce any molecules for that transcript, or that the sequencer simply did not detect them. Traditional normalisation techniques such as \thing{} and \thing{} had to be adapted to accommodate for this uncertainty, and new ones were created that harnessed hurdle models, data imputation via manifold learning techniques, or by pooling subsets of cells together and building general linear models.
+
+With the downstream analysis packages attempting to solve the dropouts via stochastic methods, the upstream sequencing technologies also aspired to solve the capture efficiency via well, droplet, and flow cytometry based protocols, all of which lend importance to the process of barcoding sequencing reads. In each protocol, cells are tagged with cell barcodes such that any reads derived from them can be unambiguously quantified to originate from a specific cell, and the inclusion of unique molecular identifiers (UMIs) are also employed to mitigate the effects of amplification bias of transcripts within the same cell. The detection, extraction, and (de-)multiplexing of these barcodes is therefore one of the first hurdles researchers encounter when receiving their raw FASTQ data from the sequencing facility.
+
+\subsection{The Software Ecosystem}
+Since its conception, over two hundred different packages and many pipelines have been developed to assist researchers in the analysis of scRNA-seq \citeneed. Many of
 
 
-
-
-
-
-
-
-\section{Introduction to this Template}
-
-\begin{epigraph}{Epigraph source name}
-This is the epigraph text, should you like to add one. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-\end{epigraph}
-
-This is the \LaTeX{} template for GigaScience journal manuscript submissions. \textbf{Please note that whilst this template provides a preview of the typeset manuscript for submission, it will not necessarily be the final publication layout.}
-
-There are important commands in the preamble that you will need to modify for your own manuscript. If you are using this template on Overleaf, please switch the editor to Source code mode to view them; or if you prefer to stay in the Rich Text view, click on the title in the Rich Text view to display the preamble code.
-
-Use the \verb|\journal{...}| command in the preamble so that the correct journal name, logo and colours are loaded automatically. \textbf{Only certain journals and options are supported at this time;} check with your journal's editorial office if your journal is supported.
-
-Alternatively you can re-define \verb|\jname|, \verb|\jlogo| and the \verb|jcolour| explicitly, though check with your journal's editorial office to confirm that this is appropriate.
-
-Specify your manuscript's category with the \verb|\papercat{...}| command in the preamble.
-
-See the sample code in the preamble for a sample of how author and affiliation information can be specified.
 
 Use later sections starting with `Background' on page~\pageref{sec:background} to write your manuscript. The remainder of this current section will provide some sample \LaTeX{} code for various elements you may want to include in your manuscript.
 
