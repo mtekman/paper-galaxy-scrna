@@ -117,15 +117,16 @@ With the downstream analysis packages attempting to solve the dropouts via stoch
 \subsection{The Burgeoning Software Ecosystem}
 Since its conception, over two hundred different packages and many pipelines have been developed to assist researchers in the analysis of scRNA-seq \citeneed. The vast majority of these packages were written for the R programming language since many of the novel normalisation methods developed to handle the dropout events, depended on statistical packages that were primarily R-based \citeneed. Standalone analysis suites emerged as the different authors of these packages rapidly expanded their methods to encapsulate all facets of the single-cell analysis, often creating compatibility issues with previous package versions. The Bioconductor repository provided some much-needed stability by hosting stable releases, by researchers were prone to building directly from repository sources in order to reap the benefits of the new features in the more developed upstream versions \citeneed (ScanPy, Seurat?).
 
-Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \thing{} from the \thing{} suite, \thing from \thing{} and \thing{}. Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fueled a choice of one analysis suite over another, which further accelerated the rapid development of these suites, leading to further version instability.
+Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \thing{} from the \thing{} suite, \thing{} from \thing{} and \thing{}. Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fueled a choice of one analysis suite over another, which further accelerated the rapid development of these suites, leading to further version instability.
 
 \subsection{Rise of 10x Genomics}
 In 20XXX, 10x Genomics released their first commercial product, which was a droplet-seq based protocol capable of sequencing tens of thousands of cells with an average cell quality higher than other facilities \citeneed. This unprecedented level of throughput was attractive to many researchers and startups seeking to perform single-cell analysis, and thus 10x datasets began to saturate and ultimately dominate the field.
 
 10x Genomics provided software that was able to perform much of the pre-processing, and provided feature-count matrices in a transparent HDF5-based format which provided a means of efficient matrix storage and exchange, and ultimately removed the restriction for downstream analysis modules to be written in R.
 
-%% Rise of ScanPy
+One of the first packages to make use of this language independence was the ScanPy suite, written in Python, a language more introspectable to casual users. 
 
+%% Rise of ScanPy
 \subsection{Galaxy}
 Conda solves instability problems, 10
 
