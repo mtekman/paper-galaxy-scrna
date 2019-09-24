@@ -39,6 +39,8 @@
 \jyear{2017}
 
 %% My customisations
+\newcommand{\prog}[1]{\textit{#1}}
+\newcommand{\fileformat}[1]{\texttt{#1}}
 \newcommand{\citeneed}{{\bf\tiny [Citation Needed]}}
 \newcommand{\thing}{{\bf THING}}
 
@@ -100,7 +102,9 @@ Emphasise more:
 
 The continuing rise in single cell technologies has led to previously unprecedented levels of analysis into cell heterogeneity within tissue samples, providing new insights into developmental and differentiation pathways for a wide range of different disciplines. Gene expression studies are now performed at a cellular level of resolution, which compared to bulk RNA-seq methods, allows researchers to model their tissue samples as distributions of different expression instead of as an average.
 
-The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types. Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluripotent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells \citep{rozenblatt2017human}.
+The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types \cite{wagner2016revealing}.
+
+Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluripotent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells \citep{rozenblatt2017human}.
 
 \subsection{Pitfalls and Technical Challenges}
 With each new protocol comes a host of new technical problems to overcome. The first wave of software utilities to deal with the analysis of single cell datasets were statistical packages, aimed at tackling the issue of ``dropout events'' during sequencing, which would manifest as a high prevalence of zero-entries in over 80\% of the feature-count matrix. These zeroes were problematic, since they could not be trivially ignored as their presence stated that either the cell did not produce any molecules for that transcript, or that the sequencer simply did not detect them. Traditional normalisation techniques such as \prog{EdgeR} and \prog{Limma} had to be adapted to accommodate for this uncertainty, and new ones were created that harnessed hurdle models, data imputation via manifold learning techniques, or by pooling subsets of cells together and building general linear models \citep{camara2018methods}.
@@ -111,7 +115,9 @@ With the downstream analysis packages attempting to solve the dropouts via stoch
 Since its conception, over two hundred different packages and many pipelines have been developed to assist researchers in the analysis of scRNA-seq \citeneed. The vast majority of these packages were written for the R programming language since many of the novel normalisation methods developed to handle the dropout events, depended on statistical packages that were primarily R-based \citeneed. Standalone analysis suites emerged as the different authors of these packages rapidly expanded their methods to encapsulate all facets of the single-cell analysis, often creating compatibility issues with previous package versions. The Bioconductor repository provided some much-needed stability by hosting stable releases, but researchers were still prone to building directly from repository sources in order to reap the benefits of the new features in the more developed upstream versions \citeneed.
 % cite ScanPy, Seurat here?
 
-Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}. Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, which further accelerated the rapid development of these suites, leading to further version instability.
+Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}.
+% are all four citations needed here?
+Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, which only accelerated the rapid development of these suites, leading to further version instability.
 
 %% I need to mention RaceID more, as I need to justify why its in Galaxy compared with Seurat.
 
@@ -128,7 +134,7 @@ One of the first packages to make use of this language independence was the Scan
 
 As the size of datasets scaled, so did the computing resources required to analyse them, both in terms of the processing power and in storage. Galaxy is an open source biocomputing infrastructure that encapsulates the three main tenets of science; reproducibility, peer review, and open-access - all freely accessible within the web-browser \citep{afgan2016galaxy}. It hosts a wide range of highly-cited bioinformatic tools with many different versions, enables users to freely create their own workflows via a seamless drag-and-drop interface, and provides teaching materials on a wide variety of different topics.
 
-Galaxy makes use of Conda tool environments in order to ensure that 
+Galaxy makes use of Conda tool environments in order to ensure that
 
 %Trainings and workshops are hosted at least twice a year that encourage users to play with and understand their data.
 
@@ -143,7 +149,7 @@ The reason for this is three-fold: with differing formats and inter-package inco
 % Environments
 Thankfully there are many online resources, jupyter notebooks that can walk a researcher through how to perform an analysis as well as understanding the concepts at each stage, but not many make use of reproducible environments either via Conda or other.
 
-% Training materials 
+% Training materials
 The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material in order to educate users in how to analyse their data, and in turn to train others of the same materials via easily deployable workshops. The Galaxy project provides a priority processing queue for anybody who may require it during a workshop. The GTN has grown rapidly since it's conception and gains new volunteers every year who each contribute and coordinate training and teaching events, maintain topic and subtopics, and provide peer review on new material.
 
 % UX
@@ -154,17 +160,11 @@ The Galaxy tools and the GTN are further tied together by Galaxy subdomains, tha
 
 In this light, the \url{singlecellomics.usegalaxy.eu} subdomain hosts the entirety of the single-cell materials, tools, workflows, and single-cell related events, and it is this which is the focus of the paper. Given the extremely broadening scope of scRNA-seq, the Human Cell Atlas also have their own subdomain in this regard and maintain their materials at \url{humancellatlas.usegalaxy.eu}.
 
-% Branching Analysis 
+% Branching Analysis
 The tutorials are split into two main parts that describe the post-processing and downstream analysis, referring to the distinct stages of constructing a count matrix from initial sequencing data, and then performing cluster analysis on the count matrix. These stages are very far from one another in terms of their information content, since the pre-processing stage requires the researcher to have more wetlab knowledge than a bioinformatician would normally need, and the downstream analysis stage requires the researcher to be familiar with machine learning concepts that a wetlab scientist might not be too familiar with.
 
-%% plantuml file
-%InputFASTQ->CountMatrix: Demultiplexing and Quantification Workflow
-%InputFASTQ->CountMatrix: 10x STARsolo Workflow
-%InputFASTQ->CountMatrix: Alevin Alignment-free Workflow
-%CountMatrix->QualityControlMatrix: Scater Workflow
-%CountMatrix->Analysis: ScanPy Workflow
-%CountMatrix->Analysis: RaceID Workflow
-
+%% plantuml file generated from:
+%% https://www.planttext.com/?text=ZT1D2i8m40NWlQV81GgwTL4QMeGk1Fi3haETbi7ff2GJRMzl4AHkYgvcyxt7Op8lnaaOQLVo5EIacxPAqjm6bhCHX_DH5J064fm8PkH16RwfAXWMxB4pWfRLrRfxJ_QvtN7OpwffTUqjsJ-u9dWWnuC3Zy2Iz0vWpNtP98rR26N9BOkpz6beuZHm6n7DXXQF_ituilnajUcWB5QM0T_Ypru0
 \begin{figure}[bt!] %% preferably at bottom or top of column
 \centering
 \includegraphics[width=\linewidth]{workflows}
