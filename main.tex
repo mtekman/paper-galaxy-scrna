@@ -117,16 +117,16 @@ Since its conception, over two hundred different packages and many pipelines hav
 
 Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}.
 % are all four citations needed here?
-Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, which only accelerated the rapid development of these suites, leading to further version instability. As a result of this analysis diversity, there are many opinionated tutorials on how to perform scRNA-seq analysis each oriented around one of these pipelines such as those proposed by Hemberg, UMI-tools, \thing, \thing, and the multiple analysis pipelines listed in BioConductor \citeneed.
+Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, or required researchers to dig deeper into the internal semantics of R to slot components together. These problems only accelerated the rapid development of these suites, leading to further version instability. As a result of this analysis diversity, there are many opinionated tutorials on how to perform scRNA-seq analysis each oriented around one of these pipelines such as those proposed by Hemberg (Scater-oriented), \thing, \thing, and the multiple analysis pipelines listed in BioConductor \citeneed.
 
 %% I need to mention RaceID more, as I need to justify why its in Galaxy compared with Seurat.
 
 \subsection{Rise of 10x Genomics}
-In 2015, 10x Genomics released their \prog{GemCode} product, which was a droplet-seq based protocol capable of sequencing tens of thousands of cells with an average cell quality higher than other facilities \citep{vickovic2016massive}. This unprecedented level of throughput was attractive to many researchers and startups seeking to perform single-cell analysis, and thus 10x datasets began to prevail in the field.
+In 2015, 10x Genomics released their \prog{GemCode} product, which was a droplet-seq based protocol capable of sequencing tens of thousands of cells with an average cell quality higher than other facilities \citep{vickovic2016massive}. This unprecedented level of throughput steadily gained traction amongst researchers and startups seeking to perform single-cell analysis, and thus 10x datasets began to prevail in the field.
 
 10x Genomics provided software that was able to perform much of the pre-processing, and provided feature-count matrices in a transparent HDF5-based format which provided a means of efficient matrix storage and exchange, and ultimately removed the restriction for downstream analysis modules to be written in R. From the user perspective, literate datasets no longer needed to be analysed in RStudio but were now permitted in less language-restrictive notebooks such as Jupyter\citep{allaire2012rstudio,kluyver2016jupyter}.
 
-%% Question: Terminologoy - Pipeline, Suite, Workflow, which to use?
+%% terminology - Pipeline, Suite, Workflow, which to use?
 One of the first packages to make use of this language independence was the ScanPy suite, written in Python, a more widely used language \citep{stackoverflow2019,wolf2018scanpy}. Within a year, ScanPy had become the dominant suite for analysing 10x datasets, and quickly adopted the \fileformat{HDF5} format, with their own \fileformat{AnnData} extension better suited to their pipeline. They were not alone in this effort, as the Seurat team adopted the \fileformat{LOOM} format for their datasets with similar goals. However, the dominance of ScanPy became much more pronounced as it began to rapidly integrate the methods of other standalone packages into its codebase, making it the natural choice for users who wanted to achieve more without compromising on compatibility between methods \citeneed.
 % cite the various github PRs?
 
@@ -138,22 +138,47 @@ As the size of datasets scaled, so did the computing resources required to analy
 
 Galaxy makes use of \prog{Conda} tool environments in order to ensure that the bioinformatics tools will always be able to run, even when the library dependencies for a tool have changed, by building tools under locked version dependencies and bundling them together in a self-contained environment \citep{gruning2018bioconda}. These \prog{Conda} environments provide a concise solution for the package version instability that plagues scRNA-seq analysis notebooks, both in terms of reproducibility and analysis flexibility. A user can run the quality control stages with an older version of ScanPy, whilst reaping the benefits of the upstream improvements in the clustering stage. By allowing the user to select multiple versions of the same tool, and by further permitting different versions of the tools within a workflow, Galaxy enables an unprecedented level of free-flow analysis by letting researchers pick and choose the best aspects of a tool without worrying about the underlying software libraries.
 
-Analyses are not limited to one tool pipeline either, as the datasets which are passed between tools can easily be interpreted by a different tool which is capable of reading that dataset. In the case of scRNA-seq, Galaxy makes good use of the \fileformat{LOOM} and \fileformat{AnnData}
+Analyses are not limited to one pipeline either, as the datasets which are passed between tools can easily be interpreted by a different tool which is capable of reading that dataset. In the case of scRNA-seq, Galaxy makes good use of the \fileformat{LOOM} and \fileformat{AnnData} which enables the inter-exchange of modules from different tools and further extends flexibility and functionality by again letting the user decide which component of a tool would be best suited for a specific part of an analysis.
+
+Galaxy also provides a wide host of learning resources, with the aim of guiding users step-by-step through an analysis, often reproducing the results of published works. The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material in order to educate users in how to analyse their data, and in turn to train others of the same materials via easily deployable workshops.
+%The Galaxy project provides a priority processing queue for anybody who may require it during a workshop.
+The GTN has grown rapidly since it's conception and gains new volunteers every year who each contribute and coordinate training and teaching events, maintain topic and subtopics, translate tutorials into multiple languages, and provide peer review on new material \citep{batut2018cell}.
+
+
+\section{Methods}
+
+The analysis of scRNA-seq within Galaxy was a two-pronged effort concentrated on bringing high quality single-cell tools into Galaxy, and providing the necessary workflows and training to accompany them. As mentioned in the previous section, this effort needed to overcome incompatible file format issues, unstable packages due to rapid development, and standardisation of the actual analysis.
+
+%\subsection{Analysis Structure}
+
+The tutorials are split into two main parts that describe the post-processing and downstream analysis, referring to the distinct stages of constructing a count matrix from initial sequencing data, and then performing cluster analysis on the count matrix. These stages are very far from one another in terms of their information content, since the pre-processing stage requires the researcher to have more wetlab knowledge than a bioinformatician would normally need, and the downstream analysis stage requires the researcher to be familiar with machine learning concepts that a wetlab scientist might not be too familiar with.
+
+The tutorials are designed to appeal to both the biologist and the statistician, such that each can benefit from the other's knowledge and, most importantly, bridge the knowledge gaps that separate the two.
+
+\subsection{Pre-processing Workflows}
+
+The pre-processing scRNA-seq materials tackle the two most common use-cases that researchers will encounter when they first begin the field: processing scRNA-seq data from 10x Genomics, and processing data generated from more custom protocols.
+
+% Barcodes and 10x
+Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires threee crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
+
+Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may contain more un-mappable reads compared to others meaning that the metric of higher read library sizes are not necessarily correlated with a better-defined cell. Ultimately, the bioinformatician must go to the sequencing lab and ask them which cell barcodes were used, as these are often not specific to the protocol but to the technician who designed them, with the idea that they should not align to the reference genome or transcriptome.
+
+\subsubsection{One-click Pre-processing}
+
+10x Genomics simplified the scRNA package ecosystem by using a language independent file format, and streamlining much of the barcode particularities with their \prog{Cell Ranger} pipeline, allowing researchers to focus more on internal biological variability of their datasets.
+
+The 10x pre-processing workflow given in Galaxy uses \prog{RNA STARsolo} utility as a drop-in replacement for \prog{Cell Ranger}, as it is a feature update of the already exist \prog{RNA STAR} tool already in Galaxy, and because it boasts a ten-fold speedup in comparison \cite{}.
+% Cite STAR --- how????
+
+Though the memory requirements are also an order of magnitude higher, they are easily catered for using the Galaxy Framework which does not suffer from such memory constraints, and has the benefit of not requiring the Illumina lane read information to perform the processing either. The training and workflow for this is therefore quite straightforward and follows the same mode of discovery and analysis.
+%TODO coordinate with Alex
+In a similar vein, there is also an Alevin-based workflow which also performs the demultiplexing, alignment (without mapping), and quantification in a single step to produce a count matrix. This is ideally paired with the downstream Monocle workflow to perform the full analysis, but the choice is left to the user due to the interexchangeability of the file formats being generated.
 
 
 
-\section{Integrate the Following....}
-Many of these are computationally and statistically complex for the average biologically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
 
-The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
-
-% Environments
-Thankfully there are many online resources, jupyter notebooks that can walk a researcher through how to perform an analysis as well as understanding the concepts at each stage, but not many make use of reproducible environments either via Conda or other.
-
-% Training materials
-The teaching and training materials are part of the Galaxy Training Network (GTN) which is a worldwide collaborative effort to produce high-quality teaching material in order to educate users in how to analyse their data, and in turn to train others of the same materials via easily deployable workshops. The Galaxy project provides a priority processing queue for anybody who may require it during a workshop. The GTN has grown rapidly since it's conception and gains new volunteers every year who each contribute and coordinate training and teaching events, maintain topic and subtopics, and provide peer review on new material.
-
-% UX
+\subsection{Training and Subdomains}
 The training materials cover several topics and are written in a flexible markdown format that empowers contributors to write tutorials on their expert topics without resorting to bloated editors, whilst enabling the community to peer-review such contributions easily via git or on Github by using standard diff utilities. Tutorials usually consist of a hands-on workflow that guides the user through an analysis with Galaxy utilising a step-by-step approach, and is often accompanied with a slide deck that either serve to explain standalone concepts more concisely, or are used during workshops and trainings as a way to introduce the user to the topic. In an effort to maintain reproducibility in science,  all tutorials require example workflows, and all materials required to run the workflows and tutorials are hosted for free open access at Zenodo with a DOI tag.
 
 % Galaxy Infosphere
@@ -161,8 +186,12 @@ The Galaxy tools and the GTN are further tied together by Galaxy subdomains, tha
 
 In this light, the \url{singlecellomics.usegalaxy.eu} subdomain hosts the entirety of the single-cell materials, tools, workflows, and single-cell related events, and it is this which is the focus of the paper. Given the extremely broadening scope of scRNA-seq, the Human Cell Atlas also have their own subdomain in this regard and maintain their materials at \url{humancellatlas.usegalaxy.eu}.
 
-% Branching Analysis
-The tutorials are split into two main parts that describe the post-processing and downstream analysis, referring to the distinct stages of constructing a count matrix from initial sequencing data, and then performing cluster analysis on the count matrix. These stages are very far from one another in terms of their information content, since the pre-processing stage requires the researcher to have more wetlab knowledge than a bioinformatician would normally need, and the downstream analysis stage requires the researcher to be familiar with machine learning concepts that a wetlab scientist might not be too familiar with.
+
+
+
+
+
+\section{Integrate the Following....}
 
 %% plantuml file generated from:
 %% https://www.planttext.com/?text=ZT1D2i8m40NWlQV81GgwTL4QMeGk1Fi3haETbi7ff2GJRMzl4AHkYgvcyxt7Op8lnaaOQLVo5EIacxPAqjm6bhCHX_DH5J064fm8PkH16RwfAXWMxB4pWfRLrRfxJ_QvtN7OpwffTUqjsJ-u9dWWnuC3Zy2Iz0vWpNtP98rR26N9BOkpz6beuZHm6n7DXXQF_ituilnajUcWB5QM0T_Ypru0
@@ -172,22 +201,13 @@ The tutorials are split into two main parts that describe the post-processing an
 \caption{UML of workflows}\label{fig:example}
 \end{figure}
 
+Many of these are computationally and statistically complex for the average biologically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
 
-The tutorial are designed to appeal to both types of researchers, the biologist and the statistician such that each can benefit from the other's knowledge and, most importantly, bridge the knowledge gaps that separate the two.
+The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
 
-The pre-processing scRNA-seq materials tackle the two most common use-cases that researchers will encounter when they first begin the field: processing scRNA-seq data from 10x Genomics, and processing data generated from other protocols.
+% Environments - integrated
+%% Thankfully there are many online resources, jupyter notebooks that can walk a researcher through how to perform an analysis as well as understanding the concepts at each stage, but not many make use of reproducible environments either via Conda or other.
 
-% Barcodes and 10x
-Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires threee crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
-
-Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may contain more un-mappable reads compared to others meaning that the metric of higher read library sizes are not neccesarily correlated with a better-defined cell. Ultimately, the bioinformatician must go to the sequencing lab and ask them which cell barcodes were used, as these are often not specific to the protocol but to the technician who designed them, with the idea that they should not align to the reference genome or transcriptome.
-
-10x Genomics appeared in the field in XXXXDATE, and steadily gained traction amongst researchers due to the high-throughput and high-quality datasets they generated. The initial state of the scRNA-seq software ecosystem was in a state of disarray before the emergence of 10x, due to the different competing, often not inter-exchangeable, R-based formats which required researchers to dig deeper into the internal semantics of R, instead of the internal biological variability of their datasets. 10x Genomics streamlined much of this process by popularising their own transparent H5-based format as well as their own \prog{Cell Ranger} pipeline.
-
-% STARsolo compared to CellRanger
-The \prog{RNA STARsolo} tool is an update to the \prog{RNA STAR} utility designed to be a drop-in replacement for the \prog{Cell Ranger} pipeline, that boasts a ten-fold speedup of their pipeline. Though the memory requirements are also an order of magnitude higher, they are easily catered for using the Galaxy Framework which does not suffer from such memory constraints, and has the benefit of not requiring the Illumina lane read information to perform the processing either. The training and workflow for this is therefore quite straightforward and follows the same mode of discovery and analysis.
-%TODO coordinate with Alex
-In a similar vein, there is also an Alevin-based workflow which also performs the demultiplexing, alignment (without mapping), and quantification in a single step to produce a count matrix. This is ideally paired with the downstream Monocle workflow to perform the full analysis, but the choice is left to the user due to the interexchangeability of the file formats being generated.
 
 The custom pre-processing uses the CELSeq2 protocol following the barcoding strategies at the local Max-Planck Freiburg laboratory as its main template, but the training is flexible to accommodate any droplet or well-based protocol. The training pictographically walks users through the concepts of extracting cell barcodes, both at the over-archingly conceptial and basic file previewing level, and elucidates the use of UMIs and its role and significance in the process of read deduplication, and explains and instructs the user in the process of performing further quality controls on their data during the post-mapping process via \prog{RNA STAR} and basic BAM Filter utilities that are native to Galaxy. At each stage, the user's knowledge is queried via expandable Question Box dialogs, and helpful hints for future processing are given via Comment Boxes, all written in transparent Markdown to the specification of the GTN contributing guidelines designed to aid users.
 
@@ -331,7 +351,7 @@ Each of the trainings seamlessly leads on from topic to the next, with the markd
 %% \end{sidewaystable}
 
 
-\section{Potential implications}
+%%\section{Potential implications}
 
 %% Authors should provide some additional comments about potential, more broad-ranging implications of their work that are not directly related to the current focus of their manuscript. This section is meant to promote discussion on possible ways the findings or data presented might be used in or have a relationship with other areas of research that may not be directly apparent in the work. It is not meant to provide `proof of importance' of the work. Only to engender expansion of use to other areas.
 
