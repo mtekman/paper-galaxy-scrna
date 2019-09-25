@@ -119,12 +119,15 @@ With each new protocol comes a host of new technical problems to overcome. The f
 With the downstream analysis packages attempting to solve the dropouts via stochastic methods, the upstream sequencing technologies also aspired to solve the capture efficiency via well, droplet, and flow cytometry based protocols, all of which lend importance to the process of barcoding sequencing reads. In each protocol, cells are tagged with cell barcodes such that any reads derived from them can be unambiguously quantified to originate from a specific cell, and the inclusion of unique molecular identifiers (UMIs) are also employed to mitigate the effects of amplification bias of transcripts within the same cell. The detection, extraction, and (de-)multiplexing of these barcodes is therefore one of the first hurdles researchers encounter when receiving their raw FASTQ data from the sequencing facility.
 
 \subsection{The Burgeoning Software Ecosystem}
+
 Since its conception, over two hundred different packages and many pipelines have been developed to assist researchers in the analysis of scRNA-seq \citeneed. The vast majority of these packages were written for the R programming language since many of the novel normalisation methods developed to handle the dropout events, depended on statistical packages that were primarily R-based \citeneed. Standalone analysis suites emerged as the different authors of these packages rapidly expanded their methods to encapsulate all facets of the single-cell analysis, often creating compatibility issues with previous package versions. The Bioconductor repository provided some much-needed stability by hosting stable releases, but researchers were still prone to building directly from repository sources in order to reap the benefits of the new features in the more developed upstream versions \citeneed.
 % cite ScanPy, Seurat here?
 
 Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}.
 % are all four citations needed here?
 Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, or required researchers to dig deeper into the internal semantics of R to slot components together. These problems only accelerated the rapid development of these suites, leading to further version instability. As a result of this analysis diversity, there are many opinionated tutorials on how to perform scRNA-seq analysis each oriented around one of these pipelines such as those proposed by Hemberg (Scater-oriented), \thing, \thing, and the multiple analysis pipelines listed in BioConductor \citeneed.
+
+Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
 
 %% I need to mention RaceID more, as I need to justify why its in Galaxy compared with Seurat.
 
@@ -267,15 +270,6 @@ The community comes together regularly during scheduled CoFests to review, contr
 
 Overall, the materials and tools presented in this paper represent the first fully comprehensive interactive guide to producing a single-cell RNA-seq analysis from the data capture stage all the way to the final publication, with the GTN community fully supporting the user the entire way. The materials grow with the user's knowledge, and expert users are known to give back to the material, enabling a constructive cycle of knowledge that emulates the ideals of open and transparent science through the use of web-based tools and a strong biocomputing framework to support it.
 
-
-
-\begin{comment}
-
-Many of these are computationally and statistically complex for the average biologically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
-
-The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
-
-\end{comment}
 
 %%% TEMPLATES BEGIN HERE %%%%
 
