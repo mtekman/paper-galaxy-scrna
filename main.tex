@@ -86,8 +86,6 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 \end{keypoints*}
 
 \begin{comment}
-* accessiblity, scalability
-* Fileformats, compatibility and conversions, interconvertible
 * Visualisations on top
 * Plotting tools on top of LOOM
 * New workflows based upon the existing, we encourage it
@@ -225,7 +223,7 @@ In the ScanPy tutorial, the louvain clustering approach is explained via a stand
 
 The clustering and the cluster inspection are notably separated into distinct utilities here, with the understanding that the same initial clustering can appear differently under different projections, for example tSNE or UMAP. Ultimately the user is encouraged to play with the plotting parameters to yield the best looking clusters for the same static clustering parameters. For tSNE this often means adjusting the perplexity parameter without having to rerun the entire tSNE clustering computation, though UMAP also has such parameters.
 
-The inspection wrappers reflect the modules offered by the native packages, with package-specific information overlayed on top of the map projections in the manner that the package authors assumed was best. However, the AnnData and LOOM specification store this map projection data separately, and so the user is not at the mercy of these plotting tools, with plenty of HTML5-based interactive visualisations available at their disposal such that the user can query individual cell features without having to generate static images via tools such as \prog{cellxgene} which are also available on the Galaxy server. Though these tools are excellent at dynamically displaying map projections, especially 3-dimensional ones, further computation must be performed to perform a full pseudotime analysis.
+The inspection wrappers reflect the modules offered by the native packages, with package-specific information overlayed on top of the map projections in the manner that the package authors assumed was best. However, the AnnData and LOOM specification store this map projection data separately, and so the user is not at the mercy of these plotting tools, with plenty of HTML5-based interactive visualisations available at their disposal such that the user can query individual cell features without having to generate static images via tools such as \prog{cellxgene} which are also available on the Galaxy server \citep{cellxgene}. Though these tools are excellent at dynamically displaying map projections, especially 3-dimensional ones, further computation must be performed to perform a full pseudotime analysis.
 
 \subsubsection{Pseudotime Trajectory Analysis}
 The cell pseudotime series analysis is often referred to as the trajectory inference stage, since cells are ordered along a trajectory to reflect the continuous changes to gene expression along a pathway under the assumption that the cells are transitioning from one type to another.
@@ -271,13 +269,13 @@ Overall, the materials and tools presented in this paper represent the first ful
 
 
 
-\section{Integrate the Following....}
+\begin{comment}
 
 Many of these are computationally and statistically complex for the average biologically-minded researcher, and thus the uptake of many of these packages is dependent on whether the methods come from the main downstream analysis pipelines such as Seurat or ScanPy, or whether the methods from these packages have been incorporated into them.
 
 The reason for this is three-fold: with differing formats and inter-package incompatibility being a major factor, since no one will work with a package that creates its own container format or is not compatible with some of the main formats such as Loom, AnnData, or SingleCellExperiment; platform incompatibilites, where much of the software was written in R and therefore pipelines were driven via R/Bash pipelines, whereas actual pipeline frameworks such as snakemake, Galaxy, or CWL are more python-driven and use more transparent formats; Different pipelines produce different results, where the stochastic nature of the analyses means that any uncertainty in a crucial quality control stage upstream (such as filtering) will propagate forward into the downstream sections to yield different results. This uncertainty, and the statistically-driven methods to overcome them leaves a wide information gap for researchers simply trying to understand the underlying dynamics of a cell.
 
-
+\end{comment}
 
 %%% TEMPLATES BEGIN HERE %%%%
 
