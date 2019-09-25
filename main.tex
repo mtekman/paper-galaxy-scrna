@@ -117,7 +117,7 @@ Since its conception, over two hundred different packages and many pipelines hav
 
 Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}.
 % are all four citations needed here?
-Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, which only accelerated the rapid development of these suites, leading to further version instability.
+Many new packages would cater only towards one format or suite, leading to the common problem that data processed in one suite could not be reliably processed by methods in another. This incompatibility between packages fuelled a choice of one analysis suite over another, which only accelerated the rapid development of these suites, leading to further version instability. As a result of this analysis diversity, there are many opinionated tutorials on how to perform scRNA-seq analysis each oriented around one of these pipelines such as those proposed by Hemberg, UMI-tools, \thing, \thing, and the multiple analysis pipelines listed in BioConductor \citeneed.
 
 %% I need to mention RaceID more, as I need to justify why its in Galaxy compared with Seurat.
 
@@ -130,15 +130,16 @@ In 2015, 10x Genomics released their \prog{GemCode} product, which was a droplet
 One of the first packages to make use of this language independence was the ScanPy suite, written in Python, a more widely used language \citep{stackoverflow2019,wolf2018scanpy}. Within a year, ScanPy had become the dominant suite for analysing 10x datasets, and quickly adopted the \fileformat{HDF5} format, with their own \fileformat{AnnData} extension better suited to their pipeline. They were not alone in this effort, as the Seurat team adopted the \fileformat{LOOM} format for their datasets with similar goals. However, the dominance of ScanPy became much more pronounced as it began to rapidly integrate the methods of other standalone packages into its codebase, making it the natural choice for users who wanted to achieve more without compromising on compatibility between methods \citeneed.
 % cite the various github PRs?
 
-\subsection{Scalability in the Cloud}
+\subsection{Solutions in the Cloud}
 
-As the size of datasets scaled, so did the computing resources required to analyse them, both in terms of the processing power and in storage. Galaxy is an open source biocomputing infrastructure that encapsulates the three main tenets of science; reproducibility, peer review, and open-access - all freely accessible within the web-browser \citep{afgan2016galaxy}. It hosts a wide range of highly-cited bioinformatic tools with many different versions, enables users to freely create their own workflows via a seamless drag-and-drop interface, and provides teaching materials on a wide variety of different topics.
-
-Galaxy makes use of Conda tool environments in order to ensure that
-
+As the size of datasets scaled, so did the computing resources required to analyse them, both in terms of the processing power and in storage. Galaxy is an open source biocomputing infrastructure that encapsulates the three main tenets of science; reproducibility, peer review, and open-access - all freely accessible within the web-browser \citep{afgan2016galaxy}. It hosts a wide range of highly-cited bioinformatic tools with many different versions, enables users to freely create their own workflows via a seamless drag-and-drop interface.
+%and provides teaching materials on a wide variety of different topics
 %Trainings and workshops are hosted at least twice a year that encourage users to play with and understand their data.
 
-Conda solves instability problems, 10
+Galaxy makes use of \prog{Conda} tool environments in order to ensure that the bioinformatics tools will always be able to run, even when the library dependencies for a tool have changed, by building tools under locked version dependencies and bundling them together in a self-contained environment \citep{gruning2018bioconda}. These \prog{Conda} environments provide a concise solution for the package version instability that plagues scRNA-seq analysis notebooks, both in terms of reproducibility and analysis flexibility. A user can run the quality control stages with an older version of ScanPy, whilst reaping the benefits of the upstream improvements in the clustering stage. By allowing the user to select multiple versions of the same tool, and by further permitting different versions of the tools within a workflow, Galaxy enables an unprecedented level of free-flow analysis by letting researchers pick and choose the best aspects of a tool without worrying about the underlying software libraries.
+
+Analyses are not limited to one tool pipeline either, as the datasets which are passed between tools can easily be interpreted by a different tool which is capable of reading that dataset. In the case of scRNA-seq, Galaxy makes good use of the \fileformat{LOOM} and \fileformat{AnnData}
+
 
 
 \section{Integrate the Following....}
