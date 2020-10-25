@@ -77,9 +77,9 @@ scRNA; Galaxy; resources; HPC; single-cell; 10X
 %%% Key points will be printed at top of second page
 \begin{keypoints*}
 \begin{itemize}
-\item The analysis of scRNA is currently stabilising towards 10X Genomics datasets
-\item A rapid
-\item One last point.
+\item Single-cell analyses stabilising towards one-click solutions.
+\item Galaxy provides training and tools for both automatic and manual protocols.
+\item 
 \end{itemize}
 \end{keypoints*}
 
@@ -107,9 +107,9 @@ Emphasise more:
 
 The continuing rise in single cell technologies has led to previously unprecedented levels of analysis into cell heterogeneity within tissue samples, providing new insights into developmental and differentiation pathways for a wide range of different disciplines. Gene expression studies are now performed at a cellular level of resolution, which compared to bulk RNA-seq methods, allows researchers to model their tissue samples as distributions of different expression instead of as an average.
 
-The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multipotent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types \cite{wagner2016revealing}.
+The various expression profiles uncovered within tissue samples infer discrete cell types which are related to one another across an ``expression landscape'', where relationships between the more distinct profiles are inferred via distance-metrics or manifold learning techniques which aim to model the continuous biological process of cell differentiation from multi-potent stem cells to mature cell types, and infer lineage and differentiation pathways between these various distinct and transient cell types \cite{wagner2016revealing}.
 
-Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluripotent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells \citep{rozenblatt2017human}.
+Trajectory analysis can then be performed to measure the up or down regulation of significant genes along lineage branches in order to uncover the factors and extracellular triggers that can coerce a pluri-potent cell to become biased towards one cell fate outcome compared to another. This undertaking has created a new frontier of exploration in cell biology, where researchers have assembled reference maps for different cell lines in order to fully record these cell dynamics and characteristics to create a global ``atlas'' of cells \citep{rozenblatt2017human}.
 
 \subsection{Pitfalls and Technical Challenges}
 With each new protocol comes a host of new technical problems to overcome. The first wave of software utilities to deal with the analysis of single cell datasets were statistical packages, aimed at tackling the issue of ``dropout events'' during sequencing, which would manifest as a high prevalence of zero-entries in over 80\% of the feature-count matrix. These zeroes were problematic, since they could not be trivially ignored as their presence stated that either the cell did not produce any molecules for that transcript, or that the sequencer simply did not detect them. Traditional normalisation techniques such as \prog{EdgeR} and \prog{Limma} had to be adapted to accommodate for this uncertainty, and new ones were created that harnessed hurdle models, data imputation via manifold learning techniques, or by pooling subsets of cells together and building general linear models \citep{camara2018methods}.
@@ -118,7 +118,7 @@ With the downstream analysis packages attempting to solve the dropouts via stoch
 
 \subsection{The Burgeoning Software Ecosystem}
 
-Since its conception, over two hundred different packages and many pipelines have been developed to assist researchers in the analysis of scRNA-seq \citeneed. The vast majority of these packages were written for the R programming language since many of the novel normalisation methods developed to handle the dropout events, depended on statistical packages that were primarily R-based \citeneed. Standalone analysis suites emerged as the different authors of these packages rapidly expanded their methods to encapsulate all facets of the single-cell analysis, often creating compatibility issues with previous package versions. The Bioconductor repository provided some much-needed stability by hosting stable releases, but researchers were still prone to building directly from repository sources in order to reap the benefits of the new features in the more developed upstream versions \citeneed.
+Since its conception, many different packages and pipelines have been developed to assist researchers in the analysis of scRNA-seq. The vast majority of these packages were written for the R programming language since many of the novel normalisation methods developed to handle the dropout events, depended on statistical packages that were primarily R-based \citeneed. Standalone analysis suites emerged as the different authors of these packages rapidly expanded their methods to encapsulate all facets of the single-cell analysis, often creating compatibility issues with previous package versions. The Bioconductor repository provided some much-needed stability by hosting stable releases, but researchers were still prone to building directly from repository sources in order to reap the benefits of the new features in the more developed upstream versions \citeneed.
 % cite ScanPy, Seurat here?
 
 Another issue was the proliferation of the many different and quickly evolving R-based file formats for processing and storing the data, such as \fileformat{SingleCellExperiment} as used by the \prog{Scater} suite, \fileformat{SCSeq} from \prog{RaceID}, and \fileformat{SeuratObject} from \prog{Seurat} \citep{lun2018singlecellexperiment,mccarthy2017scater,grun2015raceid,satija2015seurat}.
@@ -135,7 +135,7 @@ In 2015, 10x Genomics released their \prog{GemCode} product, which was a droplet
 10x Genomics provided software that was able to perform much of the pre-processing, and provided feature-count matrices in a transparent HDF5-based format which provided a means of efficient matrix storage and exchange, and ultimately removed the restriction for downstream analysis modules to be written in R. From the user perspective, literate datasets no longer needed to be analysed in RStudio but were now permitted in less language-restrictive notebooks such as Jupyter\citep{allaire2012rstudio,kluyver2016jupyter}.
 
 %% terminology - Pipeline, Suite, Workflow, which to use?
-One of the first packages to make use of this language independence was the ScanPy suite, written in Python, a more widely used language \citep{stackoverflow2019,wolf2018scanpy}. Within a year, ScanPy had become the dominant suite for analysing 10x datasets, and quickly adopted the \fileformat{HDF5} format, with their own \fileformat{AnnData} extension better suited to their pipeline. They were not alone in this effort, as the Seurat team adopted the \fileformat{LOOM} format for their datasets with similar goals. However, the dominance of ScanPy became much more pronounced as it began to rapidly integrate the methods of other standalone packages into its codebase, making it the natural choice for users who wanted to achieve more without compromising on compatibility between methods \citeneed.
+One of the first packages to make use of this language independence was the ScanPy suite, written in Python, a more widely used language \citep{stackoverflow2019,wolf2018scanpy}. Within a year, ScanPy had become the dominant suite for analysing 10x datasets, and quickly adopted the \fileformat{HDF5} format, with their own \fileformat{AnnData} extension better suited to their pipeline. They were not alone in this effort, as the Seurat team adopted the \fileformat{LOOM} format for their datasets with similar goals. However, the dominance of ScanPy became much more pronounced as it began to rapidly integrate the methods of other standalone packages into its code base, making it the natural choice for users who wanted to achieve more without compromising on compatibility between methods \citeneed.
 % cite the various github PRs?
 
 \subsection{Solutions in the Cloud}
@@ -168,7 +168,7 @@ The tutorials are designed to appeal to both the biologist and the statistician,
 The pre-processing scRNA-seq materials tackle the two most common use-cases that researchers will encounter when they first begin the field: processing scRNA-seq data from 10x Genomics, and processing data generated from more custom protocols.
 
 % Barcodes and 10x
-Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires threee crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
+Before the era of 10x Genomics, scRNA-seq data had to be demultiplexed, mapped, and quantified. The demultiplexing stage requires an intimate knowledge of cell barcodes and Unique Molecular Identifiers (UMIs) which are protocol dependent and requires that the bioinformatician knows exactly where and how the data they are processing were generated. One common pitfall at the very first stage is determining exactly how many cells to expect in the FASTQ input data, and this requires three crucial piece of information: which read contains the barcodes (or which subset of both the forward and reverse reads contains the barcodes); which specific barcodes were used in the analysis, and determining the number of acceptable barcode mismatches/errors and how to resolve or cluster them.
 
 Naive strategies involve using a known barcode template and querying against the FASTQ to profile the number of reads that align to a specific barcode, often employing 'knee' methods to estimate this amount. However, this approach ultimately fails since certain cells are more likely to be over-represented compared to others, and some cell barcodes may contain more un-mappable reads compared to others meaning that the metric of higher read library sizes are not necessarily correlated with a better-defined cell. Ultimately, the bioinformatician must go to the sequencing lab and ask them which cell barcodes were used, as these are often not specific to the protocol but to the technician who designed them, with the idea that they should not align to the reference genome or transcriptome.
 
@@ -185,18 +185,17 @@ In a similar vein, there is also an Alevin-based workflow which also performs th
 
 \subsubsection{Flexible Pre-processing}
 
-The custom pre-processing uses the CELSeq2 protocol following the barcoding strategies at the local Max-Planck Freiburg laboratory as its main template, but the training is flexible to accommodate any droplet or well-based protocol \citep{hashimshony2016cel}. The training pictographically walks users through the concepts of extracting cell barcodes, both at the over-archingly conceptial and basic file previewing level, and elucidates the use of UMIs and its role and significance in the process of read deduplication, and explains and instructs the user in the process of performing further quality controls on their data during the post-mapping process via \prog{RNA STAR} and basic BAM Filter utilities that are native to Galaxy. At each stage, the user's knowledge is queried via expandable Question Box dialogs, and helpful hints for future processing are given via Comment Boxes, all written in transparent Markdown to the specification of the GTN contributing guidelines designed to aid users.
+The custom pre-processing uses the CELSeq2 protocol following the barcoding strategies at the local Max-Planck Freiburg laboratory as its main template, but the training is flexible to accommodate any droplet or well-based protocol \citep{hashimshony2016cel}. The training pictographically walks users through the concepts of extracting cell barcodes, both at the over-archingly conceptual and basic file previewing level, and elucidates the use of UMIs and its role and significance in the process of read deduplication, and explains and instructs the user in the process of performing further quality controls on their data during the post-mapping process via \prog{RNA STAR} and basic BAM Filter utilities that are native to Galaxy. At each stage, the user's knowledge is queried via expandable Question Box dialogs, and helpful hints for future processing are given via Comment Boxes, all written in transparent Markdown to the specification of the GTN contributing guidelines designed to aid users.
 
 \subsection{Downstream Workflows}
 
 The downstream modules are defined by the five main stages of downstream scRNA-seq analysis as defined by the Hemberg group; filtering, normalisation, confounder removal, clustering, and trajectory inference. There are three workflows to aid in this process, each sporting a different well-established scRNA-seq pipeline tool. The Scater pipeline follows a visualise-edit-visualise paradigm which provides a very intuitive means to perform further quality control on a count matrix by use of repeated incremental changes on a dataset through the use of PCA and library size based metrics \citeneed. % Graham's paper
 Once this pre-analysis stage is complete and that the user is now confident with the quality of their data, they can perform the analysis via one or both of two comprehensive workflows: RaceID, and ScanPy.
 
-The RaceID package was developed initially to analyse rare cell transcriptomes whilst being robust against noise, and thus is ideal for working with smaller datasets in the range of 300 to 1000 cells, though due to its impressive cell lineage and fate predictions models it can also be used on larger datasets albeit with some scaling costs. The ScanPy pipeline was developed as the Python counter response to overinflated R package ecosystem for scRNA-seq which was the dominant language for such analyses, and it was one of the first packages with native 10x genomics file format support. Since then it has grown substantially, and has been re-implementing much of the newer methods released in BioConductor, therefore providing a single source to perform many different types of the same analysis and becoming a dominant leader in the field where others have been slow to adapt.
+The RaceID package was developed initially to analyse rare cell transcriptomes whilst being robust against noise, and thus is ideal for working with smaller datasets in the range of 300 to 1000 cells, though due to its impressive cell lineage and fate predictions models it can also be used on larger datasets albeit with some scaling costs. The ScanPy pipeline was developed as the Python counter response to over-inflated R package ecosystem for scRNA-seq which was the dominant language for such analyses, and it was one of the first packages with native 10x genomics file format support. Since then it has grown substantially, and has been re-implementing much of the newer methods released in BioConductor, therefore providing a single source to perform many different types of the same analysis and becoming a dominant leader in the field where others have been slow to adapt.
 
 Both workflows guide the user from the initial filtering step (if required) through to the clustering and final trajectory inference and inspection, mostly through a guided linear path because historically different pipelines do not work so well with one another.
 
-% TODO: Finish this damn wrapper...
 However, through the use of a convenience wrapper, the different modules of each pipeline are now able to communicate with one another via the AnnData datatype. The native RaceID R datatypes are converted into AnnData so that the analysis via one workflow can be continued within another, should the user wish to reap the benefits of one or more modules from another pipeline.
 
 The modules emulate the five main stages of analysis mentioned previously, where filtering, normalisation, and confounder removal are typically separated into distinct stages.
@@ -219,8 +218,8 @@ The transcription effects are harder to model, as these are semi-stochastic and 
 
 \subsubsection{Clustering and Projection}
 Once a user has obtained a count matrix they are confident in, they can perform clustering where they are first educated in the use of commonly used clustering techniques such as k-means and hierarchical clustering, as well as dimension reduction techniques, through the use of helpful images and community examples.
-%TODO
-In the ScanPy tutorial, the louvain clustering approach is explained via a standalone slide deck to assist in the workflow.
+
+In the ScanPy tutorial, the Louvain clustering approach is explained via a standalone slide deck to assist in the workflow.
 
 The clustering and the cluster inspection are notably separated into distinct utilities here, with the understanding that the same initial clustering can appear differently under different projections, for example tSNE or UMAP. Ultimately the user is encouraged to play with the plotting parameters to yield the best looking clusters for the same static clustering parameters. For tSNE this often means adjusting the perplexity parameter without having to rerun the entire tSNE clustering computation, though UMAP also has such parameters.
 
@@ -232,23 +231,21 @@ The cell pseudotime series analysis is often referred to as the trajectory infer
 For the trajectory inference stage there is the PAGA graph abstraction technique championed by ScanPy, and there is also the FateID and StemID packages for the RaceID workflow. The former provides a level of graph abstraction to the datasets in order to infer a community graph structure which it can use to learn the shape of the data and infer pathways between neighbourhoods. The latter is more intuitive, in that it constructs a minimal spanning tree of related clusters that infer lineage, and cell fate decisions can be explored by individually querying branches in this tree, as a function of the genes which are up or down regulated along the currently explored pathway. The statistical strength and significance of each pathway guides the user along more valid trajectories that would more accurately reflect the biological variation occurring within transitioning cells.
 
 \subsubsection{Sharing Reference Maps}
-The insights and novel cell types discovered in these analyses can also be integrated into the Human Cell Atlas portal, which is an initiative that aims to classify unique or rare cell types and their transitive properties in order to build a comprehensive map of cells that can be used to inverstigate the various differentiation pathways of multipotent stem cells.
+The insights and novel cell types discovered in these analyses can also be integrated into the Human Cell Atlas portal, which is an initiative that aims to classify unique or rare cell types and their transitive properties in order to build a comprehensive map of cells that can be used to investigate the various differentiation pathways of multi-potent stem cells.
 
 
 \subsection{Training and Subdomains}
 
 Each of the trainings seamlessly leads on from topic to the next, with the markdown encouraging authors to set tutorial pre-requisities and follow up tutorials, all encapsulated within the single topic. Not only does this allow users to derive a seamless route through the flurry of tutorials, but it also enables a branching tree structure of topics to be generated so that users can guide their own learning.
 
-%% plantuml file generated from:
-%% https://www.planttext.com/?text=ZT1D2i8m40NWlQV81GgwTL4QMeGk1Fi3haETbi7ff2GJRMzl4AHkYgvcyxt7Op8lnaaOQLVo5EIacxPAqjm6bhCHX_DH5J064fm8PkH16RwfAXWMxB4pWfRLrRfxJ_QvtN7OpwffTUqjsJ-u9dWWnuC3Zy2Iz0vWpNtP98rR26N9BOkpz6beuZHm6n7DXXQF_ituilnajUcWB5QM0T_Ypru0
 \begin{figure}[bt!] %% preferably at bottom or top of column
 \centering
-\includegraphics[width=\linewidth]{workflows}
+\includegraphics[width=\linewidth]{Images/Paper_scRNA_Galaxy_Process.png}
 \caption{UML of workflows}\label{fig:example}
 \end{figure}
 
 
-The training materials cover several topics and are written in a flexible markdown format that empowers contributors to write tutorials on their expert topics without resorting to bloated editors, whilst enabling the community to peer-review such contributions easily via git or on Github by using standard diff utilities. Tutorials usually consist of a hands-on workflow that guides the user through an analysis with Galaxy utilising a step-by-step approach, and is often accompanied with a slide deck that either serve to explain standalone concepts more concisely, or are used during workshops and trainings as a way to introduce the user to the topic. In an effort to maintain reproducibility in science,  all tutorials require example workflows, and all materials required to run the workflows and tutorials are hosted for free open access at Zenodo with a DOI tag.
+The training materials cover several topics and are written in a flexible markdown format that empowers contributors to write tutorials on their expert topics without resorting to bloated editors, whilst enabling the community to peer-review such contributions easily via \prog{git} or on GitHub by using standard diff utilities. Tutorials usually consist of a hands-on workflow that guides the user through an analysis with Galaxy utilising a step-by-step approach, and is often accompanied with a slide deck that either serve to explain standalone concepts more concisely, or are used during workshops and trainings as a way to introduce the user to the topic. In an effort to maintain reproducibility in science,  all tutorials require example workflows, and all materials required to run the workflows and tutorials are hosted for free open access at Zenodo with a DOI tag.
 
 % Galaxy Infosphere
 The Galaxy tools and the GTN are further tied together by Galaxy subdomains, that better encapsulate the various topics into their own self-contained spheres of influence. These complement the training material by providing only the necessary Galaxy tools from the total set of Galaxy utilities such that the toolbar is not over-cluttered with tools that are not so relevant to the material (e.g. Variant Analysis tools being included in scRNA-seq resources), and also the benefit that smaller specialised Galaxy instances can be deployed with much smaller redundancy since only the core tools (e.g. text manipulation, FASTQ quality control, etc.) and the topic-specific utilities are packaged with it.
@@ -264,7 +261,7 @@ With single-cell RNA firmly within the Galaxy framework, echoes the efforts to s
 
 Those looking for stability in the field would have to look hard to find it, due to the non-standardisation of the R package ecosystem in which most of the analysis packages were written. Galaxy abstracts the user from the format specifics, by exposing the user only to the tool and data mindset, where tools simply ingest and produce data.
 
-The community comes together regularly during scheduled CoFests to review, contribute, and actively maintain the training materials, and the number of volunteers is growing every year with named roles assigned to interested parties. This upkeep ensures that the Galaxy resources will continue to outlive other materials which typically decay over time once interest in them declines. By visiting and revisiting material in these scheduled slots, the material can only continue to improve, and now reaches even more audiences via the use of language translation tools which ensures that the international community is never left out.
+The community comes together regularly during scheduled Code Festivals (CoFests) to review, contribute, and actively maintain the training materials, and the number of volunteers is growing every year with named roles assigned to interested parties. This upkeep ensures that the Galaxy resources will continue to outlive other materials which typically decay over time once interest in them declines. By visiting and revisiting material in these scheduled slots, the material can only continue to improve, and now reaches even more audiences via the use of language translation tools which ensures that the international community is never left out.
 
 Overall, the materials and tools presented in this paper represent the first fully comprehensive interactive guide to producing a single-cell RNA-seq analysis from the data capture stage all the way to the final publication, with the GTN community fully supporting the user the entire way. The materials grow with the user's knowledge, and expert users are known to give back to the material, enabling a constructive cycle of knowledge that emulates the ideals of open and transparent science through the use of web-based tools and a strong biocomputing framework to support it.
 
@@ -323,12 +320,29 @@ Any restrictions to use by non-academics: e.g. licence needed
 \section{Declarations}
 
 \subsection{List of abbreviations}
+
 %If abbreviations are used in the text they should be defined in the text at first use, and a list of abbreviations should be provided in alphabetical order.
+
+\begin{description}
+\item[CELSeq]{Cell Expression by Linear amplification and Sequencing}
+\item[DOI]{Digital Object Identifier}
+\item[GTN]{Galaxy Training Network}
+\item[HDF5]{Hierarchical Data Format 5}
+\item[HPC]{High Performance Computing}
+\item[PAGA]{Partition-based Graph Abstraction}
+\item[PCA]{Principle Component Analysis}
+\item[scRNA]{Single-Cell RNA}
+\item[UMI]{Unique Molecular Identifier}
+\end{description}
+
+
 
 \subsection{Ethical Approval (optional)}
 Not applicable.
 
 \subsection{Consent for publication}
+
+Not applicable.
 
 %If your manuscript contains any individual person's data in any form, consent to publish must be obtained from that person, or in the case of children, their parent or legal guardian. All presentations of case reports must have consent to publish. You can use your institutional consent form. You should not send the form to us on submission, but we may request to see a copy at any stage (including after publication). Please also confirm you have followed national guidelines on data collection and release in the place the research was carried out, for example confirming you have Ministry of Science and Technology (MOST) approval in China.
 
@@ -336,10 +350,17 @@ Not applicable.
 
 \subsection{Competing Interests}
 
+The author(s) declare that they have no competing interests.
+
 %All financial and non-financial competing interests must be declared in this section. See our \href{https://academic.oup.com/gigascience/pages/editorial_policies_and_reporting_standards}{editorial policies} for a full explanation of competing interests. Where an author gives no competing interests, the listing will read `The author(s) declare that they have no competing interests'. If you are unsure whether you or any of your co-authors have a competing interest please contact the editorial office.
 
 
 \subsection{Funding}
+
+% This really depends on whether we mention MeInBio 
+Funded by the Deutsche Forschungsgemeinschaft (DFG, German
+Research Foundation) - 322977937/GRK2344
+
 
 %All sources of funding for the research reported should be declared. The role of the funding body in the design of the study and collection, analysis, and interpretation of data and in writing the manuscript should be declared. Please use \href{http://www.crossref.org/fundingdata/}{FundRef} to report funding sources and include the award/grant number, and the name of the Principal Investigator of the grant.
 
@@ -350,6 +371,11 @@ Not applicable.
 
 
 \section{Acknowledgements}
+
+We thank the bioinformatics group at the University of Freiburg, 
+%second affiliation
+%third affiliation
+the MeInBio consortium, and we also thank the worldwide contributions from users and developers towards the Galaxy Project.
 
 %Please acknowledge anyone who contributed towards the article who does not meet the criteria for authorship including anyone who provided professional writing services or materials.
 %Authors should obtain permission to acknowledge from all those mentioned in the Acknowledgements section. If you do not have anyone to acknowledge, please write ``Not applicable'' in this section.
@@ -368,3 +394,9 @@ Not applicable.
 \bibliography{paper-refs}
 
 \end{document}
+
+
+
+% RaceID is still not compatible with ScanPy, so we leave this paragraph out
+%\paragraph{Workflow Compatibility}
+%Both the RaceID and ScanPy workflows guide the user from the initial filtering, through to the clustering,  and final trajectory inference and inspection. Historically, these pipelines are not compatible. However, through the use of a convenience wrapper, the different modules of each pipeline are now able to communicate with one another via the AnnData datatype. The native RaceID R datatypes are converted into AnnData so that the analysis via one workflow can be continued within another, should the user wish to reap the benefits of one or more modules from another pipeline.
